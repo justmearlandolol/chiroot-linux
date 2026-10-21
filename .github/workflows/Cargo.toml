@@ -1,0 +1,18 @@
+[package]
+name = "chiroot"
+version = "1.0.0"
+edition = "2021"
+description = "Chiroot - Free Audio Player Tanpa Iklan"
+license = "MIT"
+
+[dependencies]
+gdk-pixbuf = "0.18"
+gtk = "0.18"
+webkit2gtk = { version = "2", features = ["v2_40"] }
+
+[profile.release]
+strip = true
+lto = true
+opt-level = 3
+codegen-units = 1
+panic = "abort"
