@@ -1,7 +1,7 @@
 [package]
 name = "chiroot"
 version = "1.0.0"
-edition = "2026"
+edition = "2021"
 description = "Chiroot - Free Audio Player Tanpa Iklan"
 license = "MIT"
 
