@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Chiroot
+GenericName=Audio Player
+Comment=Chiroot Free Audio Player Tanpa Iklan
+Exec=chiroot %u
+Icon=chiroot
+Terminal=false
+Categories=AudioVideo;Audio;Player;Network;
+Keywords=music;audio;player;stream;chiroot;
+StartupWMClass=chiroot
