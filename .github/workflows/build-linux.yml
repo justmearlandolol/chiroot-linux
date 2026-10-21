@@ -1,0 +1,55 @@
+name: build-linux
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: System dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential pkg-config libgtk-3-dev libwebkit2gtk-4.1-dev \
+            librsvg2-bin rpm file curl ca-certificates
+
+      - name: Cargo cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Package
+        run: sh packaging/package.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: chiroot-linux-x86_64
+          path: dist/*
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/chiroot-amd64.deb
+            dist/chiroot-x86_64.rpm
+            dist/Chiroot-x86_64.AppImage
+            dist/chiroot-linux-x86_64.tar.gz
+            dist/install.sh
+            dist/SHA256SUMS
+          generate_release_notes: true
